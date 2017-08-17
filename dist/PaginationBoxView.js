@@ -48,6 +48,11 @@ var PaginationBoxView = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (PaginationBoxView.__proto__ || Object.getPrototypeOf(PaginationBoxView)).call(this, props));
 
+    _this.handleFirstPage = function (evt) {
+      evt.preventDefault ? evt.preventDefault() : evt.returnValue = false;
+      _this.handlePageSelected(0, evt);
+    };
+
     _this.handlePreviousPage = function (evt) {
       evt.preventDefault ? evt.preventDefault() : evt.returnValue = false;
       if (_this.state.selected > 0) {
@@ -60,6 +65,11 @@ var PaginationBoxView = function (_Component) {
       if (_this.state.selected < _this.props.pageCount - 1) {
         _this.handlePageSelected(_this.state.selected + 1, evt);
       }
+    };
+
+    _this.handleLastPage = function (evt) {
+      evt.preventDefault ? evt.preventDefault() : evt.returnValue = false;
+      _this.handlePageSelected(_this.props.pageCount - 1, evt);
     };
 
     _this.handlePageSelected = function (selected, evt) {
@@ -202,6 +212,19 @@ var PaginationBoxView = function (_Component) {
           { className: previousClasses },
           _react2.default.createElement(
             'a',
+            { onClick: this.handleFirstPage,
+              className: this.props.previousLinkClassName,
+              href: this.hrefBuilder(1),
+              tabIndex: '0',
+              onKeyPress: this.handleFirstPage },
+            this.props.previousLabel
+          ),
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: previousClasses },
+          _react2.default.createElement(
+            'a',
             { onClick: this.handlePreviousPage,
               className: this.props.previousLinkClassName,
               href: this.hrefBuilder(this.state.selected - 1),
@@ -221,6 +244,19 @@ var PaginationBoxView = function (_Component) {
               href: this.hrefBuilder(this.state.selected + 1),
               tabIndex: '0',
               onKeyPress: this.handleNextPage },
+            this.props.nextLabel
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: nextClasses },
+          _react2.default.createElement(
+            'a',
+            { onClick: this.handleLastPage,
+              className: this.props.nextLinkClassName,
+              href: this.hrefBuilder(this.props.pageCount),
+              tabIndex: '0',
+              onKeyPress: this.handleLastPage },
             this.props.nextLabel
           )
         )
